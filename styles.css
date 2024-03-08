@@ -5,11 +5,26 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #1E88E5;
+    --secondary-color: #1976D2;
+    --accent-color: #1565C0;
+    --text-color: #333;
+    --text-light: #666;
+    --bg-light: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
+    --border-radius: 10px;
+    --transition: all 0.3s ease;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--text-color);
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 .container {
