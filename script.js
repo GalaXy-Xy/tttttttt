@@ -211,4 +211,97 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // 添加页面加载进度条
+    function showLoadingProgress() {
+        const progressBar = document.createElement('div');
+        progressBar.id = 'loading-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #1E88E5, #1976D2);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    progressBar.remove();
+                }, 500);
+            }
+            progressBar.style.width = progress + '%';
+        }, 100);
+    }
+
+    // 添加返回顶部按钮
+    function createBackToTopButton() {
+        const backToTopBtn = document.createElement('button');
+        backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        backToTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        `;
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.body.appendChild(backToTopBtn);
+
+        // 监听滚动显示/隐藏按钮
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    // 添加页面性能监控
+    function logPerformanceMetrics() {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                console.log('页面加载性能指标:', {
+                    'DOM加载时间': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                    '页面完全加载时间': perfData.loadEventEnd - perfData.loadEventStart,
+                    '总加载时间': perfData.loadEventEnd - perfData.fetchStart
+                });
+            }, 0);
+        });
+    }
+
+    // 初始化新功能
+    showLoadingProgress();
+    createBackToTopButton();
+    logPerformanceMetrics();
 });
