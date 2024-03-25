@@ -608,6 +608,75 @@ section {
     transform: translateY(0);
 }
 
+/* 暗色主题样式 */
+.dark-theme {
+    --text-color: #e0e0e0;
+    --text-light: #b0b0b0;
+    --bg-light: #1a1a1a;
+    --white: #2d2d2d;
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme body {
+    background-color: #121212;
+    color: var(--text-color);
+}
+
+.dark-theme .navbar {
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.dark-theme .nav-link {
+    color: var(--text-color);
+}
+
+.dark-theme .nav-link:hover {
+    color: var(--primary-color);
+}
+
+.dark-theme .about {
+    background: var(--bg-light);
+}
+
+.dark-theme .contact {
+    background: var(--bg-light);
+}
+
+.dark-theme .product-card {
+    background: var(--white);
+    color: var(--text-color);
+}
+
+.dark-theme .contact-form {
+    background: var(--white);
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group textarea {
+    background: var(--bg-light);
+    border-color: #444;
+    color: var(--text-color);
+}
+
+.dark-theme .form-group input:focus,
+.dark-theme .form-group textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.dark-theme .footer {
+    background: #0d0d0d;
+}
+
+.dark-theme .footer-section ul li a {
+    color: #999;
+}
+
+.dark-theme .footer-section ul li a:hover {
+    color: var(--primary-color);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .hamburger {
