@@ -412,6 +412,117 @@ section {
     transform: translateY(-2px);
 }
 
+/* 新闻动态样式 */
+.news {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.news-card {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.news-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.news-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.1);
+}
+
+.news-date {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 60px;
+}
+
+.news-date .day {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.news-date .month {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.news-content {
+    padding: 25px;
+}
+
+.news-content h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.news-content p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.news-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.news-link:hover {
+    color: var(--secondary-color);
+    transform: translateX(5px);
+}
+
+.news-link i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.news-link:hover i {
+    transform: translateX(3px);
+}
+
 /* 联系我们样式 */
 .contact {
     background: #f8f9fa;
