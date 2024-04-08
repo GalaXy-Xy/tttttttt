@@ -461,6 +461,79 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(themeToggle);
     }
 
+    // 初始化数字计数动画
+    function initCounterAnimation() {
+        const counters = document.querySelectorAll('.counter');
+        
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumbers();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    }
+
+    // 添加新闻卡片点击效果
+    function initNewsCardEffects() {
+        const newsCards = document.querySelectorAll('.news-card');
+        
+        newsCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // 添加点击动画效果
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // 模拟跳转到新闻详情页
+                const newsTitle = this.querySelector('h3').textContent;
+                alert(`即将跳转到新闻详情页：${newsTitle}`);
+            });
+        });
+    }
+
+    // 添加页面滚动进度条
+    function initScrollProgress() {
+        const progressBar = document.createElement('div');
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+        });
+    }
+
+    // 添加页面加载完成后的初始化
+    function initPageComplete() {
+        // 移除加载动画
+        const loadingElements = document.querySelectorAll('.loading');
+        loadingElements.forEach(el => {
+            el.classList.add('loaded');
+            el.classList.remove('loading');
+        });
+
+        // 添加页面加载完成的类
+        document.body.classList.add('page-loaded');
+    }
+
     // 初始化所有新功能
     showLoadingProgress();
     createBackToTopButton();
@@ -470,4 +543,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initPageTransitions();
     initKeyboardShortcuts();
     initThemeToggle();
+    initCounterAnimation();
+    initNewsCardEffects();
+    initScrollProgress();
+    
+    // 页面加载完成后执行
+    window.addEventListener('load', initPageComplete);
 });
