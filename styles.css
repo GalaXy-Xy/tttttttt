@@ -871,8 +871,14 @@ section {
         gap: 40px;
     }
 
-    .products-grid {
+    .products-grid,
+    .news-grid {
         grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
     .slider-controls {
@@ -885,6 +891,14 @@ section {
 
     section {
         padding: 60px 0;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .news-card {
+        margin-bottom: 20px;
     }
 }
 
