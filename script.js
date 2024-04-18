@@ -547,6 +547,157 @@ document.addEventListener('DOMContentLoaded', function() {
     initNewsCardEffects();
     initScrollProgress();
     
+    // 添加页面滚动视差效果增强
+    function initAdvancedParallax() {
+        const parallaxElements = document.querySelectorAll('.slide-image, .about-image, .news-image');
+        
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.3 + (index * 0.1);
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    }
+
+    // 添加鼠标跟随效果
+    function initMouseFollower() {
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            cursor.style.opacity = '0.7';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // 在可点击元素上放大光标
+        const clickableElements = document.querySelectorAll('a, button, .product-card, .news-card');
+        clickableElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursor.style.background = 'var(--secondary-color)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.background = 'var(--primary-color)';
+            });
+        });
+    }
+
+    // 添加页面滚动指示器
+    function initScrollIndicator() {
+        const indicator = document.createElement('div');
+        indicator.className = 'scroll-indicator';
+        indicator.style.cssText = `
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 200px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            z-index: 1000;
+        `;
+        
+        const progress = document.createElement('div');
+        progress.className = 'scroll-progress';
+        progress.style.cssText = `
+            width: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            height: 0%;
+            transition: height 0.1s ease;
+        `;
+        
+        indicator.appendChild(progress);
+        document.body.appendChild(indicator);
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progress.style.height = scrollPercent + '%';
+        });
+    }
+
+    // 添加页面切换时的淡入淡出效果
+    function initPageTransitions() {
+        const links = document.querySelectorAll('a[href^="#"]');
+        
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // 添加淡出效果
+                    document.body.style.transition = 'opacity 0.3s ease';
+                    document.body.style.opacity = '0.7';
+                    
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // 恢复透明度
+                        setTimeout(() => {
+                            document.body.style.opacity = '1';
+                        }, 300);
+                    }, 150);
+                }
+            });
+        });
+    }
+
+    // 添加键盘导航增强
+    function initEnhancedKeyboardNav() {
+        let currentFocusIndex = 0;
+        const focusableElements = document.querySelectorAll('a, button, input, textarea');
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                
+                if (e.shiftKey) {
+                    currentFocusIndex = currentFocusIndex > 0 ? currentFocusIndex - 1 : focusableElements.length - 1;
+                } else {
+                    currentFocusIndex = currentFocusIndex < focusableElements.length - 1 ? currentFocusIndex + 1 : 0;
+                }
+                
+                focusableElements[currentFocusIndex].focus();
+            }
+        });
+    }
+
     // 页面加载完成后执行
     window.addEventListener('load', initPageComplete);
+    
+    // 初始化新功能
+    initAdvancedParallax();
+    initMouseFollower();
+    initScrollIndicator();
+    initEnhancedKeyboardNav();
 });
