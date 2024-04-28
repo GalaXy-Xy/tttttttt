@@ -695,9 +695,121 @@ document.addEventListener('DOMContentLoaded', function() {
     // 页面加载完成后执行
     window.addEventListener('load', initPageComplete);
     
+    // 添加页面性能优化
+    function initPerformanceOptimizations() {
+        // 图片懒加载
+        const images = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+
+        // 防抖滚动事件
+        let scrollTimeout;
+        const originalScrollHandler = window.onscroll;
+        
+        window.onscroll = function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(() => {
+                if (originalScrollHandler) {
+                    originalScrollHandler();
+                }
+            }, 16); // 60fps
+        };
+    }
+
+    // 添加页面访问统计
+    function initAnalytics() {
+        // 模拟页面访问统计
+        const pageViews = localStorage.getItem('pageViews') || 0;
+        localStorage.setItem('pageViews', parseInt(pageViews) + 1);
+        
+        // 记录访问时间
+        const visitTime = new Date().toISOString();
+        localStorage.setItem('lastVisit', visitTime);
+        
+        console.log(`页面访问次数: ${parseInt(pageViews) + 1}`);
+        console.log(`访问时间: ${visitTime}`);
+    }
+
+    // 添加错误处理
+    function initErrorHandling() {
+        window.addEventListener('error', (e) => {
+            console.error('页面错误:', e.error);
+            // 可以在这里添加错误上报逻辑
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('未处理的Promise拒绝:', e.reason);
+            // 可以在这里添加错误上报逻辑
+        });
+    }
+
+    // 添加页面可见性检测
+    function initVisibilityDetection() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                console.log('页面已隐藏');
+                // 暂停动画或减少性能消耗
+            } else {
+                console.log('页面已显示');
+                // 恢复动画或增加性能消耗
+            }
+        });
+    }
+
+    // 添加网络状态检测
+    function initNetworkDetection() {
+        function updateNetworkStatus() {
+            const status = navigator.onLine ? '在线' : '离线';
+            console.log(`网络状态: ${status}`);
+            
+            if (!navigator.onLine) {
+                // 显示离线提示
+                const offlineBanner = document.createElement('div');
+                offlineBanner.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #ff6b6b;
+                    color: white;
+                    text-align: center;
+                    padding: 10px;
+                    z-index: 10000;
+                `;
+                offlineBanner.textContent = '网络连接已断开，请检查网络设置';
+                document.body.appendChild(offlineBanner);
+            } else {
+                // 移除离线提示
+                const banner = document.querySelector('[style*="background: #ff6b6b"]');
+                if (banner) banner.remove();
+            }
+        }
+
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+        updateNetworkStatus();
+    }
+
     // 初始化新功能
     initAdvancedParallax();
     initMouseFollower();
     initScrollIndicator();
     initEnhancedKeyboardNav();
+    initPerformanceOptimizations();
+    initAnalytics();
+    initErrorHandling();
+    initVisibilityDetection();
+    initNetworkDetection();
 });
